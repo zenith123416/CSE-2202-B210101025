@@ -1,0 +1,32 @@
+#include <stdio.h>
+
+void swap(int *a, int *b) {
+  int t=*a;*a=*b;*b=t;
+}
+
+int part(int a[], int l, int r) {
+  int p=a[r],i=l;
+  for(int j=l;j<r;j++)
+    if(a[j]<=p) swap(&a[i++],&a[j]);
+  swap(&a[i],&a[r]);
+  return i;
+}
+
+void quickSort(int a[], int l, int r) {
+  int s[r-l+1], top=-1;
+  s[++top]=l; s[++top]=r;
+  while(top>=0) {
+    r=s[top--]; l=s[top--];
+    int p=part(a,l,r);
+    if(p-1>l) {s[++top]=l; s[++top]=p-1;}
+    if(p+1<r) {s[++top]=p+1; s[++top]=r;}
+  }
+}
+
+int main() {
+  int a[]={4,1,3,9,7};
+  int n=5;
+  quickSort(a,0,n-1);
+  for(int i=0;i<n;i++) printf("%d ",a[i]);
+  return 0;
+}
